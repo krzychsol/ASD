@@ -23,7 +23,9 @@ def merge2arrays(L,R):
 
     return res
 
-def mergeKarrays(arr,res=[]):
+def mergeKarrays(arr, res=[]):
+    if res is None:
+        res = []
     if len(arr) < 2:
         return arr
     if len(arr) == 2:

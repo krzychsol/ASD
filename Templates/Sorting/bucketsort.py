@@ -10,8 +10,8 @@ def insertionSort(A):
     return A
 
 def bucketSort(T):
-    n = len(T) #dlugosc tablicy
-    norm = max(T)-min(T) #zmienna do normalizacji zakresu
+    n = len(T)
+    norm = max(T)-min(T)
     B = [[] for _ in range(n)] #tworze n kubelkow
 
     for el in T:

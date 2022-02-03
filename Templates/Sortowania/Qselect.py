@@ -22,5 +22,5 @@ def kthsmallest(A,p,r,k):
 
         return kthsmallest(A,q+1,r,k-q+p-1)
 
-A = [0,15,30,20,1,23]
+A = [1,5,2,4,3]
 print(kthsmallest(A,0,len(A)-1,3))

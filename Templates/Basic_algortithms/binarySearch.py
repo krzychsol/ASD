@@ -14,4 +14,4 @@ def bin_search(val,A):
     else:
         return False
 
-print(bin_search(15,A))
+print(bin_search(14,A))

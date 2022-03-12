@@ -16,51 +16,51 @@ zamieniając kazdy element i-ty tablicy na a**i.
 Złożność algroytmu : O(n) 
 """
 
-from math import log
+from .zad3testy import runtests
+import math
 
-def insertionSort(T):
-    n = len(T)
-    for i in range(1,n):
-        key = T[i]
-        j = i-1
-        while j>=0 and T[j] > key:
-            T[j+1] = T[j]
-            j -= 1
-        T[j+1] = key
-    return T
+def insertion(T):
+    for i in range(1, len(T)):
+        temp = T[i]
+        j = i - 1
+        while (j >= 0 and temp < T[j]):
+            T[j + 1] = T[j]
+            j = j - 1
+        T[j + 1] = temp
 
-def bucketSort(T):
-    n = len(T)
-    norm = max(T)-min(T)
-    B = [[] for _ in range(n)]
+def bucket_sort(T):
+    largest = max(T)
+    length = len(T)
+    size = largest / length
 
-    for el in T:
-        norm_el = (el-min(T))/norm
-        idx = int(norm_el*n)
-        if idx != n:
-            B[idx].append(el)
+    buckets = [[] for _ in range(length)]
+    for i in range(length):
+        j = int(T[i] / size)
+
+        if j != length:
+            buckets[j].append(T[i])
         else:
-            B[idx-1].append(el)
+            buckets[length - 1].append(T[i])
 
-    for i in range(n):
-        B[i] = insertionSort(B[i])
+    for i in range(length):
+        insertion(buckets[i])
 
-    idx = 0
-    for i in range(n):
-        for j in range(len(B[i])):
-            T[idx] = B[i][j]
-            idx += 1
-    return T
+    res = []
 
-def fast_sort(tab,a):
+    for i in range(length):
+        res = res + buckets[i]
+
+    return res
+
+def fast_sort(tab, a):
     n = len(tab)
     for i in range(n):
-        tab[i] = log(tab[i],a)
+        tab[i] = math.log(tab[i],a)
 
-    tab = bucketSort(tab)
+    tab = bucket_sort(tab)
     for i in range(n):
         tab[i] = a**tab[i]
+
     return tab
 
-tab = [3.23,1.23,6.76,4.23,8.12]
-print(fast_sort(tab,2))
+runtests( fast_sort )

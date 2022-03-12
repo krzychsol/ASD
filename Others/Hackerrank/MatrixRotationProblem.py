@@ -13,12 +13,15 @@ def matrixRotation(matrix, r):
                 matrix[i][(k+1)%cols] = matrix
 
             for k in range(i,rows-1-i):
+                pass
                 # circle.append(matrix[k][cols-1-i])
 
             for k in range(cols-1-i,i,-1):
+                pass
                 # circle.append(matrix[rows-1-i][k])
 
             for k in range(rows-1-i,i,-1):
+                pass
                 # circle.append(matrix[k][i])
 
             n = len(circle)

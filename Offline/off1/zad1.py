@@ -13,7 +13,7 @@ Złożoność czasowa: O(nlogk) - gdzie n to wielkość listy ,a k to współczy
     3)Dla k = O(n): asymptotycznie O(nlogn)
 """
 
-from .zad1testy import Node, runtests
+from Offline.off1.zad1testy import Node, runtests
 
 
 class Node:
@@ -79,7 +79,7 @@ def insert_to_Q(Q,n,p):
     Q[i] = p
 
     while Q[parent(i)].val > Q[i].val:
-        Q[parent(i)].val, Q[i].val = Q[i].val, Q[parent(i)].val
+        Q[parent(i)], Q[i] = Q[i], Q[parent(i)]
         i = parent(i)
 
 

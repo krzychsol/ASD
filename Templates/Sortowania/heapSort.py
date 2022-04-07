@@ -42,7 +42,7 @@ def heapSort(A):
     n = len(A)
 
     # Build a maxheap.
-    for i in range(n // 2 - 1, -1, -1):
+    for i in range(n - 1, -1, -1):
         heapify(A, n, i)
 
     # One by one extract elements
@@ -58,6 +58,3 @@ print(A)
 heapSort(A)
 print("After heapsort: ",end="")
 print(A)
-T = [7,9,8,44,66,11,9]
-heapify(T,len(T),0)
-print(T)

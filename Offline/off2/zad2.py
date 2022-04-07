@@ -11,7 +11,7 @@ Złożoność obliczeniowa: Sortowanie - O(nlogn)
                             - optymistyczna: O(nlogn)
 Złożoność pamięciowa: O(1)
 """
-from zad2testy import runtests
+from Offline.off2.zad2testy import runtests
 
 
 def partition(A, p, r):

@@ -3,7 +3,7 @@ Zadanie 2. (problem sumy podzbioru) Dana jest tablica n liczb naturalnych A.
 Proszę podać i zaimplementować algorytm, który sprawdza, czy da się
 wybrać podciąg liczb z A, które sumują się do zadanej wartości T
 """
-
+#O(nT)
 
 def subsetsum(A, T):
     n = len(A)

@@ -3,6 +3,7 @@ Zadanie 3. (najdłuższy wspólny podciąg) Mamy dane dwie tablice,
 A[n] i B[n]. Należy znaleźć długość ich najdłuższego wspólnego podciągu.
 (Klasyczny algorytm dynamiczny O(n^2))
 """
+#O(mn)
 
 def LCS(X,Y):
     m = len(X)

@@ -1,4 +1,4 @@
-from ZEROWKA21.zad3testy import runtests
+from zad3testy import runtests
 from math import inf
 
 class Dist:

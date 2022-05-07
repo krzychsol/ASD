@@ -37,38 +37,20 @@ def LIS(A):
 
 
     result.reverse()
-    return result,tailIdx
+    return result
 
 def mr(X):
-    inc,incIdx = LIS(X)
+    inc = LIS(X)
+    print(inc)
     X.reverse()
-    dec,decIdx = LIS(X)
+    dec = LIS(X)
     dec.reverse()
-    #print(dec,inc)
-    incFirst = incIdx[0]
-    incLast = incIdx[len(incIdx)-1]
-    decLast = decIdx[len(decIdx)-1]
-    len_dec = len(dec)
-    len_inc = len(inc)
+    print(dec)
 
-    if decLast == incFirst:
-        result_len = len_dec + len_inc
-        result_mr = dec + inc
-
-        if dec[len_dec - 1] == inc[0]:
-            result_len -= 1
-            result_mr[len_dec] = float("inf")
-            result_mr.remove(float("inf"))
-
-    elif incFirst < decLast < incLast:
-        result_len = len_dec + (len_inc - incFirst)
-
-
-    #czy mozna skleic
+    return
 
 
 
-    return result_mr
-
-
-runtests(mr)
+T = [4, 10, 5, 1, 8, 2, 3, 4]
+mr(T)
+#runtests(mr)

@@ -1,5 +1,5 @@
 # zad1testy.py
-from Others.GymKol2.PrzeciecieProstokatow.testy import *
+from Greedy.PrzeciecieProstokatow.testy import *
 
 # format testów
 # TESTS = [ {"arg":arg0, "hint": hint0}, {"arg":arg1, "hint": hint1}, ... ]

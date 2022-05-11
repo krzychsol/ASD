@@ -1,5 +1,5 @@
 #P[i] = (x1,y1,x2,y2) left,down,right,up
-from Others.GymKol2.PrzeciecieProstokatow.zad1testy import runtests
+from Greedy.PrzeciecieProstokatow.zad1testy import runtests
 
 def area(P,x):
     result = 0

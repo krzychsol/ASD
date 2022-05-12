@@ -1,40 +1,52 @@
 from collections import deque
 
-class Graph:
-    def __init__(self,edges,N):
-        self.adj = [[] for _ in range(N)]
 
-        for (src,dest) in edges:
-            self.adj[src].append(dest)
-            self.adj[dest].append(src)
+# lista sasiedztwa
+def BFS(G, s):
+    n = len(G)
+    dist = [-1 for _ in range(n)]
+    dist[s] = 0
+    queue = deque([s])
 
-def BFS(graph,src,discovered,dest):
-    q = deque()
-    discovered[src] = True
-    q.append(src)
-    path = []
+    def BFS_visit(u):
+        nonlocal G, n, dist, queue
+        for v in G[u]:
+            if dist[v] == -1:
+                dist[v] = dist[u] + 1
+                queue.appendleft(v)
 
-    while q:
-        v = q.popleft()
-        for u in graph.adj[v]:
-            if u == dest:
-                path.append(u)
-                print(path)
-                break
+    while len(queue) > 0:
+        BFS_visit(queue.pop())
 
-            if not discovered[u]:
-                discovered[u] = True
-                q.append(u)
-                path.append(u)
+    return dist
 
-if __name__ == '__main__':
-    edges = [(1, 2), (1, 3), (1, 4), (2, 5), (2, 6), (5, 9),
-        (5, 10), (4, 7), (4, 8), (7, 11), (7, 12)]
 
-    N = 15
-    graph = Graph(edges,N)
-    discovered = [False]*N
+G1 = [[1, 3], [0, 2], [1], [0]]
 
-    for i in range(N):
-        if not discovered[i]:
-            BFS(graph,1,discovered,5)
+
+# macierz sasiedztwa
+def BFS2(G, s):
+    n = len(G)
+    dist = [-1 for _ in range(n)]
+    dist[s] = 0
+    queue = deque([s])
+
+    def BFS_visit(u):
+        nonlocal G, dist, n, queue
+        for v in range(n):
+            if G[u][v] == 1 and dist[v] == -1:
+                dist[v] = dist[u] + 1
+                queue.appendleft(v)
+
+    while len(queue) > 0:
+        BFS_visit(queue.pop())
+
+    return dist
+
+
+G2 = [[0,1,0,1],
+      [1,0,1,0],
+      [0,1,0,0],
+      [1,0,0,0]]
+
+print(BFS2(G2,0))

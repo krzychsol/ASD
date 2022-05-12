@@ -23,26 +23,24 @@ def iamlate(T, V, q, l):
     for i in range(n):
         V[i] = min(V[i], q)
 
-
-    f = [[[] for _ in range(q+1)] for __ in range(n)]
-
+    f = [[[] for _ in range(q + 1)] for __ in range(n)]
 
     for i in range(V[0] + 1):
         f[0][i] = [0]
 
     for i in range(1, n):
-        for j in range(q+1):
+        for j in range(q + 1):
             # z - odległość do poprzedniej stacji
-            z = T[i] - T[i-1]
+            z = T[i] - T[i - 1]
 
             # przypadek, w którym nie muszę tankować na obecnej stacji
-            if j+z <= q:
-                f[i][j] = f[i-1][j+z]
+            if j + z <= q:
+                f[i][j] = f[i - 1][j + z]
 
             # przypadki, gdzie dotankowuje k paliwa na obecnej (i-tej) stacji
             for k in range(1, V[i] + 1):
                 if j + z - k <= q:
-                    if f[i][j] == [] or len(f[i-1][j + z - k]) + 1 < len(f[i][j]):
+                    if f[i][j] == [] or len(f[i - 1][j + z - k]) + 1 < len(f[i][j]):
                         # sprawdzam jeszcze, czy mogłem dojechać wcześniej na i-1 stacje z j+z-k paliwa
                         # oraz czy nie tankuje więcej niż chce mieć paliwa (ujemna wartość w baku)
                         if f[i - 1][j + z - k] and j >= k:
@@ -50,7 +48,7 @@ def iamlate(T, V, q, l):
 
     f[n - 1][0].sort()
 
-    return f[n-1][0]
+    return f[n - 1][0]
 
 
-runtests( iamlate )
+runtests(iamlate)

@@ -1,22 +1,22 @@
-from EGZAMIN20.Termin1.zad2testy import runtests
+from zad2testy import runtests
 from math import inf
 
 # f(i,j)= minimalny mozliwy do uzyskania wynik tymaczasowy w tablicy od i do j.
 # f(i,j) = max( min(max(f(i,k),f(k+1,j))po k należacym od i do j) ,suma(i,j) )
 def opt_sum(tab):
     n = len(tab)
-    T = [0 for _ in range(n)]
-    T[0] = tab[0]
+    prefix = [0 for _ in range(n)]
+    prefix[0] = tab[0]
     for i in range(1, n):
-        T[i] = tab[i] + T[i - 1]
+        prefix[i] = tab[i] + prefix[i - 1]
 
     # Sumy prefiksowe
-    def suma(tab, T, i, j):
+    def suma(tab, prefix, i, j):
         if i == j:
             return tab[i]
         if i == 0:
-            return T[j]
-        return T[j] - T[i - 1]
+            return prefix[j]
+        return prefix[j] - prefix[i - 1]
 
     f = [[inf for _ in range(n)] for _ in range(n)]
     for i in range(n):
@@ -35,7 +35,7 @@ def opt_sum(tab):
             # mamy więc przedział w tablicy od i do j włącznie o długości dlugosc.
             # nasze k zmienia się od [i+1,...,j-1] jest to wstawienie nawiasowania do naszego dodawnia nadając mu kolejność
             for k in range(i, j):
-                f[i][j] = min(f[i][j], max(f[i][k], f[k + 1][j], abs(suma(tab, T, i, j))))
+                f[i][j] = min(f[i][j], max(f[i][k], f[k + 1][j], abs(suma(tab, prefix, i, j))))
     return f[0][n - 1]
 
     

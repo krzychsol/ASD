@@ -1,16 +1,21 @@
 # szukanie cyklu Eulera w grafie (spójnym!)
-
 # DFS, z tą różnicą, że odznaczamy krawędzi, po których przeszliśmy (a nie wierzchołki)
 # gdy odwiedzimy już wszystkich sąsiadów danego wierzchołka, to dodajemy go do cyklu
-
 # oznaczamy krawędzie jako odwiedzone wpsiując 2 zamiast 1 w oryginalnym grafie
-def cycle(G):
+
+def euler(G):
+
+    #dla grafu nieskierowanego musza byc tylko parzyste stopnie wierzchołków
+    n = len(G)
+    for vertex in range(n):
+        degree = sum(G[vertex])
+        if degree%2 == 1:
+            return None
+
     order = []
-
-    def DFSvisit(u):  # jestesmy w wierzcholku u
-
-        for v in range(len(G)):  # idziemy po wszystkich sasiadach
-            if G[u][v] == 1:  # gdy istnieje krawędź z u do v i jest ona nieodwiedzona
+    def DFSvisit(u):
+        for v in range(n):
+            if G[u][v] == 1:
                 G[u][v] = G[v][u] = 2
                 DFSvisit(v)
         order.append(u)
@@ -21,11 +26,11 @@ def cycle(G):
 
 
 # macierzowa reprezentacja grafu
-arr = [[0, 1, 0, 0, 0, 1],
+G = [[0, 1, 0, 0, 0, 1],
        [1, 0, 1, 1, 0, 1],
        [0, 1, 0, 1, 0, 0],
        [0, 1, 1, 0, 1, 1],
        [0, 0, 0, 1, 0, 1],
        [1, 1, 0, 1, 1, 0]]
 
-print(cycle(arr))
+print(euler(G))

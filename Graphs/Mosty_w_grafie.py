@@ -1,43 +1,48 @@
-class Graph:
-    def __init__(self, edges,N):
-        self.V = N
-        self.time = 0
-        self.adj = [[] for _ in range(N)]
+# algorytm:
+# 1) wykonujemy DFS zapisując czasy odwiedzenia
+# 2) obliczamy dla każdego wierzchołka funkcję low
+#    low[v] = min ( czas odwiedzenia v, low[sąsiedzi ale nie rodzic v], low[dziecko v] )
+# 3) mosty to krawędzie (v, parent[v]), gdzie d[v] = low[v]
 
-        for (src, dest) in edges:
-            self.adj[src].append(dest)
-            self.adj[dest].append(src)
+def bridges(G):
+    n = len(G)
+    visited = [False for _ in range(n)]
+    d = [0 for _ in range(n)]
+    low = [float("inf") for _ in range(n)]
+    parent = [-1 for _ in range(n)]
+    low[0] = 0
+    depth = 0
 
-    def DFSVisit(self,u,visited,parent,low,disc):
+    def DFS_visit(u):
+        nonlocal G,n,visited,parent,low,d,depth
         visited[u] = True
-        disc[u] = self.time
-        low[u] = self.time
-        self.time+=1
+        d[u] = low[u] = depth
+        depth += 1
 
-        for v in self.adj[u]:
-            if not visited[v]:
+        for v in range(n):
+            if G[u][v] and not visited[v]:
                 parent[v] = u
-                self.DFSVisit(v,visited,parent,low,disc)
+                DFS_visit(v)
                 low[u] = min(low[u],low[v])
-                if low[v] > disc[u]:
-                    print(u,v)
+            elif G[u][v] and visited[v] and parent[u] != v: #krawędź wsteczna
+                low[u] = min(low[u],low[v])
 
-            elif v != parent[u]:
-                low[u] = min(low[u],disc[v])
+    DFS_visit(0)
 
-    def DFS(self):
-        visisted = [False]*self.V
-        disc = [float('inf')]*self.V
-        low = [float('inf')]*self.V
-        parent = [-1]*self.V
-
-        for i in range(self.V):
-            if not visisted[i]:
-                self.DFSVisit(i,visisted,parent,low,disc)
+    result = []
+    for u in range(n):
+        if d[u] == low[u] and parent[u] != -1:
+            result.append((parent[u],u))
+    return result
 
 
-if __name__ == '__main__':
-    edges = [(1,0),(0,2),(2,1),(0,3),(3,4)]
-    N = max(max(edges))+1
-    G = Graph(edges,N)
-    G.DFS()
+g = [[0, 1, 0, 0, 0, 0, 1],
+     [1, 0, 1, 0, 0, 1, 1],
+     [0, 1, 0, 1, 1, 0, 0],
+     [0, 0, 1, 0, 1, 0, 0],
+     [0, 0, 1, 1, 0, 0, 0],
+     [0, 1, 0, 0, 0, 0, 1],
+     [1, 1, 0, 0, 0, 1, 0],
+     ]
+
+print(bridges(g))

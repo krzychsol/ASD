@@ -1,50 +1,45 @@
-def DFS(G, s):
-    time = [-1] * len(G)
-    visited = [False] * len(G)
-    t = 1
+def DFS(G, u, visited, result, idx):
+    visited[u] = True
+    result[idx].append(u)
+    for v in G[u]:
+        if not visited[v]:
+            DFS(G, v, visited, result, idx)
 
-    def DFSVisit(u):
-        nonlocal G, time, t, visited
-        time[u] = t
-        for v in G[u]:
-            if not visited[v]:
-                visited[v] = True
-                DFSVisit(v)
-                time[v] = t
-                t += 1
-    DFSVisit(s)
-    return time
 
-def DFS2(G,s,time):
-    def DFS2Visit(u):
-        nonlocal G, time
-        time[u] *= -1
-        print(u)
-        for v in G[u]:
-            if time[v] < 0:
-                DFS2Visit(v)
-    DFS2Visit(s)
+def transpose_graph(G, newG):
+    for u in range(len(G)):
+        for v in range(len(G[u])):
+            newG[G[u][v]].append(u)
 
-def SCC(G,s):
-    time = DFS(G, s)
-    revG = [[]for _ in range(len(G))]
 
-    for i in range(len(G)):
-        for j in range(len(G[i])):
-            revG[G[i][j]].append(i)
+def DFSUtil(G, u, visited, stack):
+    visited[u] = True
+    for v in G[u]:
+        if not visited[v]:
+            DFSUtil(G, v, visited, stack)
+    stack.append(u)
 
-    while 1:
-        mini = 0
-        idx = 0
-        for i in range(len(time)):
-            if mini > time[i]:
-                mini = time[i]
-                idx = i
-        if mini == 0:
-            break
-        DFS2(revG,idx,time)
-        print("\n")
-    return revG
 
-G = [[1,2],[2],[3],[5],[2,6],[4],[]]
-print(SCC(G, 0))
+def SCC(G):
+    n = len(G)
+    visited = [False for _ in range(n)]
+    stack = []
+    for u in range(n):
+        if not visited[u]:
+            DFSUtil(G, u, visited, stack)
+
+    new_graph = [[] for _ in range(n)]
+    transpose_graph(G, new_graph)
+    visited = [False for _ in range(n)]
+    result = [[] for _ in range(n)]
+    idx = 0
+    while len(stack) > 0:
+        u = stack.pop()
+        if not visited[u]:
+            DFS(G, u, visited, result, idx)
+            idx += 1
+    return result
+
+
+graph = [[1,2],[],[1,3],[],[3,5],[3]]
+print(SCC(graph))

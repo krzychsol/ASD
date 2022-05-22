@@ -19,23 +19,6 @@ def euler(G):
         if numofadj[i] % 2 == 1 or numofadj[i] == 0: #jezeli jakiś wierzchołek ma stopien nieparzysty lub graf jest niespojny to nie da sie utowrzyc cyklu Eulera
             return None
 
-    '''lasts = [0] * n  # tablica pozwalajaca zredukowac ilosc iteracji petli
-    path = deque()
-    cnt = 0
-    def DFS(v):
-        nonlocal cnt
-        while lasts[v] < n:
-            cnt += 1
-            if G_cpy[v][lasts[v]] == 1:
-                G_cpy[v][lasts[v]] = 0
-                G_cpy[lasts[v]][v] = 0
-                lasts[v] += 1
-                DFS(lasts[v]-1)
-            else:
-                lasts[v] += 1
-        path.appendleft(v)
-
-    DFS(0)'''
     stack = [] #stos do przechowywania przetwarzanych wierzcholkow
     path = [] #wynikowy cykl
     lasts = [0]*n #tablica pozwalajaca zredukowac ilosc iteracji petli

@@ -63,9 +63,10 @@ def mr(X):
         if X[decEnd] == X[inc2start]:
             secIncrease.pop(0)
 
-    if len(increase) > len(decrease)+len(secIncrease):
+    if len(increase) > len(decrease) + len(secIncrease):
         return increase
 
-    return decrease+secIncrease
+    return decrease + secIncrease
+
 
 runtests(mr)

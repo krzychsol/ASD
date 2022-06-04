@@ -33,7 +33,7 @@ def SCC(G):
     visited = [False for _ in range(n)]
     result = [[] for _ in range(n)]
     idx = 0
-    while len(stack) > 0:
+    while len(stack):
         u = stack.pop()
         if not visited[u]:
             DFS(G, u, visited, result, idx)

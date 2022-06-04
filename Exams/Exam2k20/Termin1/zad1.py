@@ -1,4 +1,4 @@
-from EGZAMIN20.Termin1.zad1testy import runtests
+from zad1testy import runtests
 
 def minDistance(G,dist,visited):
     min = float('inf')

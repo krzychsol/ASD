@@ -7,11 +7,11 @@ Złożoność czasowa: O(E^2)
 Złożoność pamięciowa: O(E)
 """
 from zad8testy import runtests
-import math
+from math import sqrt,ceil
 
 
 def distance(x, y):
-    return math.ceil(math.sqrt((x[0] - y[0]) ** 2 + (x[1] - y[1]) ** 2))
+    return ceil(sqrt((x[0] - y[0]) ** 2 + (x[1] - y[1]) ** 2))
 
 
 def union(parent, rank, x, y):

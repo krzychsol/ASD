@@ -1,36 +1,54 @@
-import copy, collections
+# Krzysztof Solecki
+"""
+Opis algorytmu: Alogrytm znajduje maksymalny przepływ metodą Edmondsa-Karpa. W tym celu wykonuje najpierw preprocessing grafu wejściowego
+do postaci macierzy VxV przepustowości. Następnie każdą parę u,v wierzchołków łączę z superujściem w grafie i obliczam maksymalny przepływ
+ze źródła ropy do superujścia maksymalizując w ten sposób najlepszy przeływ w tym grafie dla wszystkich par wierzchołków.
 
-def BFS(G, s, t, parent):
+Złożoność obliczeniowa: O(V^2*V^2E) - V^2 razy wykonuje algorytm Edmondsa Karpa
+Złożoność pamięciowa: O(V^2)
+"""
+
+from zad9testy import runtests
+import collections
+
+
+def BFS(G, s, t, F):
     n = len(G)
-    visited = [False] * n
+    parent = [-1 for _ in range(n)]
+    parent[s] = -2
+    M = [0 for _ in range(n)]
+    M[s] = float("inf")
     queue = collections.deque()
     queue.append(s)
-    visited[s] = True
+
     while queue:
         u = queue.popleft()
         for v in range(n):
-            if not visited[v] and G[u][v] > 0:
-                queue.append(v)
-                visited[v] = True
+            if G[u][v] - F[u][v] > 0 and parent[v] == -1:
                 parent[v] = u
-    return visited[t]
+                M[v] = min(M[u], G[u][v] - F[u][v])
+                if v != t:
+                    queue.append(v)
+                else:
+                    return M[t], parent
+    return 0, parent
+
 
 def edmonds_karp(G, src, sink):
-    parent = [-1] * len(G)
+    n = len(G)
     max_flow = 0
-    while BFS(G, src, sink, parent):
-        path_flow = float("Inf")
-        s = sink
-        while s != src:
-            path_flow = min(path_flow, G[parent[s]][s])
-            s = parent[s]
-        max_flow += path_flow
+    F = [[0 for _ in range(n)] for __ in range(n)]
+    while True:
+        Max, parent = BFS(G, src, sink, F)
+        if Max == 0:
+            break
+        max_flow += Max
         v = sink
         while v != src:
             u = parent[v]
-            G[u][v] -= path_flow
-            G[v][u] += path_flow
-            v = parent[v]
+            F[u][v] = F[u][v] + Max
+            F[v][u] = F[v][u] - Max
+            v = u
     return max_flow
 
 
@@ -40,28 +58,23 @@ def maxflow(G, s):
     for i in range(n):
         v = max(v, G[i][0], G[i][1])
     v += 1
+    new_G = [[0 for _ in range(v + 1)] for __ in range(v + 1)]
 
-    NG = [[0 for _ in range(v)] for __ in range(v)]
     for i in range(n):
-        NG[G[i][0]][G[i][1]] = G[i][2]
+        new_G[G[i][0]][G[i][1]] = G[i][2]
 
     flow = 0
-    for el in NG:
-        print(el)
     for i in range(v):
-        for j in range(v):
-            if i == j or i == s or j == s: continue
-            flow_i = edmonds_karp(NG,s,i)
-            flow_j = edmonds_karp(NG,s,j)
-            print(i,flow_i)
-            print(j,flow)
+        for j in range(i + 1, v):
+            if i == j or i == s or j == s:
+                continue
+            new_G[i][v] = new_G[j][v] = float("inf")
+            curr_flow = edmonds_karp(new_G, s, v)
+            flow = max(flow, curr_flow)
+            new_G[i][v] = new_G[j][v] = 0
 
     return flow
 
 
 # zmien all_tests na True zeby uruchomic wszystkie testy
-G = [(0,1,7),(0,3,3),(1,3,4),(1,4,6),(2,0,9),(2,3,7),(2,5,9),
-(3,4,9),(3,6,2),(5,3,3),(5,6,4),(6,4,8)]
-s = 2
-print(maxflow(G,s))
-#runtests( maxflow, all_tests = False )
+runtests(maxflow, all_tests=True)

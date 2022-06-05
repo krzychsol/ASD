@@ -1,33 +1,41 @@
 import collections
 
-def bfs(graph, s, t, parent):
-    visited = [False] * len(graph)
+
+def BFS(G, s, t, F):
+    n = len(G)
+    parent = [-1 for _ in range(n)]
+    parent[s] = -2
+    M = [0 for _ in range(n)]
+    M[s] = float("inf")
     queue = collections.deque()
     queue.append(s)
-    visited[s] = True
+
     while queue:
         u = queue.popleft()
-        for ind, val in enumerate(graph[u]):
-            if (visited[ind] == False) and (val > 0):
-                queue.append(ind)
-                visited[ind] = True
-                parent[ind] = u
-    return visited[t]
+        for v in range(n):
+            if G[u][v] - F[u][v] > 0 and parent[v] == -1:
+                parent[v] = u
+                M[v] = min(M[u], G[u][v] - F[u][v])
+                if v != t:
+                    queue.append(v)
+                else:
+                    return M[t], parent
+    return 0, parent
 
-def edmonds_karp(graph, source, sink):
-    parent = [-1] * len(graph)
+
+def edmonds_karp(G, src, sink):
+    n = len(G)
     max_flow = 0
-    while bfs(graph, source, sink, parent):
-        path_flow = float("Inf")
-        s = sink
-        while s != source:
-            path_flow = min(path_flow, graph[parent[s]][s])
-            s = parent[s]
-        max_flow += path_flow
+    F = [[0 for _ in range(n)] for __ in range(n)]
+    while True:
+        Max, parent = BFS(G, src, sink, F)
+        if Max == 0:
+            break
+        max_flow += Max
         v = sink
-        while v != source:
+        while v != src:
             u = parent[v]
-            graph[u][v] -= path_flow
-            graph[v][u] += path_flow
-            v = parent[v]
+            F[u][v] = F[u][v] + Max
+            F[v][u] = F[v][u] - Max
+            v = u
     return max_flow

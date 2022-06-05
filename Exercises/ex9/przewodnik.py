@@ -84,7 +84,7 @@ def tour(G, v, s, t):
     parents = MSTPrim(newG, s)
     path = []
     idx = t
-    while idx != None:
+    while idx is not None:
         path.append(idx)
         idx = parents[idx]
 

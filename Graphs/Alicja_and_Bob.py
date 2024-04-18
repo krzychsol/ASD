@@ -1,4 +1,5 @@
 # ALGORYTM:
+
 '''
 Dany graf modyfikujemy tak, że każdy wierzchołek rozbijamy na dwa (dla Alicji i Boba).
 Każda istniejąca krawędź z u do v staje się teraz dwiema - łączy  wierzchołki uA-vB oraz
@@ -8,7 +9,9 @@ uB-vA ma wagę 0 (bo nie interesuje nas Bob). Puszczamy algorytm Dijkstry z wier
 z xB i sprawdzamy, która ścieżka do y jest krótsza - tę wybieramy.
 '''
 
+
 # ZŁOŻONOŚĆ: 0(V^2)   -> 2 razy algorytm Dijkstry po grafie o V wierzchołkach (na macierzy)
+
 
 # reprezentacja listowa - graf nieskierowany
 class Graph:
